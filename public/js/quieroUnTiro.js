@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const socket = io();
   var mapOptions = {
     center: [6.270434, -75.601172],
-    zoom: 13,
+    zoom: 15,
   }; // opciones del mapa
 
   var map = L.map("map", mapOptions);
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var marcador = L.marker([6.270434, -75.601172], marcadorOptions);
   marcador.bindPopup("nuestra ubicacion").openPopup();
   marcador.addTo(map); // creación del marcador fijo
-
+ //suicidio suicidio
   var popup = L.popup();
   var lastCoordinates = null;
   var locacionesguar = [];
@@ -45,17 +45,17 @@ document.addEventListener("DOMContentLoaded", function () {
         clickable: true,
         draggable: true,
         icon: customIcon,
-      };
+      }; //opcioens de los no fijos o generados
 
       var marcadoresNuevos = L.marker([lat, lng], markerOptions);
       marcadoresDinamicos.push(marcadoresNuevos);
       var distance = map.distance(
         marcador.getLatLng(),
         marcadoresNuevos.getLatLng()
-      );
+      ); //distancia
       marcadoresNuevos.bindPopup(
         `marcador ${i + 1} está a ${distance.toFixed(2)} metros del centro`
-      );
+      );//muestre la distancia del centro
       marcadoresNuevos.addTo(map);
 
       marcadoresNuevos.on("dragend", function (e) {
@@ -66,14 +66,14 @@ document.addEventListener("DOMContentLoaded", function () {
         );
         locacionesguar.push(nuevascoordenadas);
         console.log(`Se guardaron las nuevas coordenadas:`, locacionesguar);
-      });
+      }); //cuando acaben de moverse
     }
 
     console.log("nuevas locaciones guardadas:", locacionesguar);
 
     const socket = io();
     socket.emit("guardarJugadores", locacionesguar);
-  }
+  }//mapa de pta mierda 
 
   // Función para crear párrafos con selectores de color
   function crearParrafos(seccion) {
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var parrafosJugadores = document.getElementById("parrafosJugadores");
     parrafosJugadores.innerHTML = "";
 
-    nombresJugadores = [];
+    nombresJugadores = []; //pa saber q guarde osea 
 
     for (let j = 1; j <= seccion; j++) {
       var parrafo = document.createElement("p");
@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       parrafo.appendChild(selectorColores);
       parrafosJugadores.appendChild(parrafo);
-    }
+    } //pa organizar la monda esa en la monda aquella (select y el parrafo)
   }
 
   var cant_players = document.getElementById("markerPlayerCount");
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
       crearParrafos(seccion);
       locacionesguar = [];
       crearMarcadores(seccion);
-    });
+    }); //crear ambos a la vez
   }
 
   document
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var playerId = event.target.id;
         nuevoNombre(playerId);
         console.log(`se escogió al jugador: ${playerId}`);
-      }
+      }//cambio nombre
     });
 
   document
@@ -148,13 +148,13 @@ document.addEventListener("DOMContentLoaded", function () {
       if (event.target.classList.contains("selectorColor")) {
         let playerId = event.target.parentElement.querySelector(".click").id;
         cambioColor(playerId, event.target.value);
-      }
+      }//cambio color
     });
 
   const botonGuardar = document.getElementById("btnGuardar");
   botonGuardar.addEventListener("click", () => {
     guardarJugadores(locacionesguar, nombresJugadores);
-  });
+  }); //pa guardar, o no le quedo claro con el nombre, bobo mk
 
   function nuevoNombre(playerId) {
     var nombreJugador = prompt("Ingrese el nombre del jugador: ");
@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
       jugadorSpan.textContent = nombreJugador;
       console.log(
         `se cambió el nombre del jugador ${playerId} por ${nombreJugador}`
-      );
+      ); //me pase todo the last of us en superviviente y casi q no arreglo esta maricada
       nombresJugadores.push({
         nombre: nombreJugador,
         color: jugadorSpan.style.backgroundColor,
@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log(`nombres acumulados ${nombresJugadores}`);
     } else {
       console.log(`nombre no ingresado`);
-    }
+    }//nombre
   }
 
   function cambioColor(playerId, color) {
@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
       case "naranja":
         jugadorSpan.style.backgroundColor = "orange";
         jugadorSpan.style.color = "white";
-        break;
+        break; //y si mejor me quito la vida
       case "blanco":
         jugadorSpan.style.backgroundColor = "white";
         jugadorSpan.style.color = "black";
@@ -221,17 +221,17 @@ document.addEventListener("DOMContentLoaded", function () {
         jugadorSpan.style.backgroundColor = "yellow";
         jugadorSpan.style.color = "black";
         break;
-    }
+    }//colores lgbtq+
   }
 
-  // Función para guardar jugadores
+  // inicio Función para guardar jugadores
   const clases = [
     "mago",
     "clerigo",
     "enano",
     "sanador",
     "arquero",
-    "esclavo",
+    "esclavo", //vida hpta
     "asesino",
     "escudero",
     "explorador",
@@ -239,11 +239,11 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   const nivelRandom = (min, max) =>
-    Math.floor(Math.random() * (max - min + 1)) + min;
+    Math.floor(Math.random() * (max - min + 1)) + min; //numero random 
   const claseRandom = (arr) => Math.floor(Math.random() * arr.length);
 
   function guardarJugadores(locacionesguar, elementosJugadores) {
-    const jugadoresGuardados = [];
+    const jugadoresGuardados = []; //para guardarlos en un array 
 
     elementosJugadores.forEach((elementoJugador, index) => {
       const nombreJugador = elementoJugador.nombre;
@@ -258,11 +258,11 @@ document.addEventListener("DOMContentLoaded", function () {
         nivel: nivelJugador,
         clase: claseJugador,
         ubicacion: ubicacionJugador,
-      };
+      }; //objeto
       jugadoresGuardados.push(jugador);
     });
 
-    console.log("jugadores guardados", jugadoresGuardados);
-    socket.emit("guardarJugadores", { locacionesguar, nombresJugadores });
+    console.log("jugadores guardados", jugadoresGuardados); //para estar seguro
+    socket.emit("guardarJugadores", { locacionesguar, nombresJugadores }); //usar el socket para poder enviarlos
   }
 });

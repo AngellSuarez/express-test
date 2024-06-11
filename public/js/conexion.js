@@ -1,10 +1,11 @@
+//no defino nombres pq seguramente lo cambie por pereza y posibles errores
 const { MongoClient } = require('mongodb');
 
 // URL del servidor de MongoDB
 const url = 'mongodb://localhost:27017/';
 
 // Nombre de la base de datos
-const dbName = 'intento1';
+const dbName = '#'; //sepa mk no quiero 
 
 // Función para conectar y guardar datos en MongoDB
 async function ConexionMongoDB(jugadoresGuardados) {
@@ -19,7 +20,7 @@ async function ConexionMongoDB(jugadoresGuardados) {
         const db = client.db(dbName);
 
         // Selección de la colección
-        const collection = db.collection("intentoxd");
+        const collection = db.collection("#"); //q putas pq putas estoy en esto
 
         // Insertar múltiples documentos en la colección
         await collection.insertMany(jugadoresGuardados);
@@ -33,4 +34,4 @@ async function ConexionMongoDB(jugadoresGuardados) {
     }
 }
 
-module.exports = ConexionMongoDB;
+module.exports = ConexionMongoDB; //exporta la funcion
