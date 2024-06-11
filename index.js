@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(require('./routes'));
 
 // sockets
-require('./sockets')(io);
+require('./socketCopy')(io);
 
 // starting the server
 server.listen(port, () => {
