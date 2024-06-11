@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa express</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+</head>
+<body>
+  <header>
+    <h2>juegadores juegadoriles</h2>
+  </header>
+    <div class="selectorMarcadores_jugadores">
+        <select id="markerPlayerCount">
+          <option value="cantidad_jugadores" selected>Cantidad jugadores</option>
+          <script>
+            for (p = 1; p <= 10; p++) {
+              document.write("<option value=" + p + ">" + p + "</option>");
+            }
+          </script>
+        </select>
+      </div>
+    <div class="parrafosJugadores" id="parrafosJugadores"></div>  
+    <div id="map"></div>
+    <div class="botonGuardar">
+      <button id="btnGuardar">Guardar</button>
+    </div>
+    <div class="partidaGuardada" id="partidaGuardada"></div>
+    <div class="btnExtras" id="btnExtras">
+      <button id="btnCargarAnterior">cargar partidas anteriores</button>
+      <button id="btnGanador">seleccionar un ganador</button>
+    </div>
+    <div class="partidasAnteriores" id="partidasAnteriores"></div>
+
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/quieroUnTiro.js" defer></script>
+
+    
+    
+</body>
+</html>
