@@ -1,30 +1,45 @@
 const express = require('express');
-const engine = require('ejs-mate');
-const path = require('path');
-const socketIO = require('socket.io');
 const http = require('http');
+const socketIo = require('socket.io');
+const ConexionMongoDB = require('./public/js/conexion'); // Importa la función de conexión a MongoDB
 
-// inicio
 const app = express();
 const server = http.createServer(app);
-const io = socketIO(server);
-const port = 4000;
+const io = socketIo(server);
 
-// settings
-app.engine('ejs', engine);
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname,'public', 'views'));
+// Configurar Express para usar EJS como motor de plantillas
+app.set('view engine', 'ejs'); // Establece EJS como el motor de plantillas por defecto
+app.set('views', __dirname + '/public/views/'); // Especifica el directorio donde se encuentran las vistas EJS
 
-// static files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + '/public'));
 
-// routes
-app.use(require('./routes'));
+// Ruta para servir la página principal usando EJS
+app.get('/', (req, res) => {
+    res.render('index'); // Renderiza la vista 'index.ejs'
+});
 
-// sockets
-require('./socketCopy')(io);
+// Manejar conexiones de clientes mediante Socket.IO
+io.on('connection', (socket) => {
+    console.log('Nuevo cliente conectado.');
 
-// starting the server
-server.listen(port, () => {
-    console.log("server iniciado en puerto " + port);
+    // Escucha el evento "guardarJugadores" del cliente
+    socket.on('guardarJugadores', ({ locacionesguar, nombresJugadores }) => {
+        // Llama a la función de conexión a MongoDB para guardar los datos
+        ConexionMongoDB(locacionesguar, nombresJugadores)
+            .then(() => {
+                console.log('Datos de jugadores guardados en MongoDB correctamente.');
+            })
+            .catch(error => {
+                console.error('Error al guardar datos de jugadores en MongoDB:', error);
+            });
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Cliente desconectado.');
+    });
+});
+
+const PORT = process.env.PORT || 4000;
+server.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

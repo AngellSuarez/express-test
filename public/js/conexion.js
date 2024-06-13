@@ -1,14 +1,13 @@
-//no defino nombres pq seguramente lo cambie por pereza y posibles errores
 const { MongoClient } = require('mongodb');
 
 // URL del servidor de MongoDB
 const url = 'mongodb://localhost:27017/';
 
-// Nombre de la base de datos
-const dbName = '#'; //sepa mk no quiero 
+// Nombre de la base de datos y colección
+const dbName = 'intentoxd';
+const collectionName = 'jugadores';
 
-// Función para conectar y guardar datos en MongoDB
-async function ConexionMongoDB(jugadoresGuardados) {
+async function ConexionMongoDB(locacionesguar, nombresJugadores) {
     const client = new MongoClient(url);
 
     try {
@@ -16,15 +15,25 @@ async function ConexionMongoDB(jugadoresGuardados) {
         await client.connect();
         console.log("Conexión establecida correctamente");
 
-        // Selección de la base de datos
+        // Selección de la base de datos y colección
         const db = client.db(dbName);
+        const collection = db.collection(collectionName);
 
-        // Selección de la colección
-        const collection = db.collection("#"); //q putas pq putas estoy en esto
+        // Preparar los documentos para insertar en MongoDB
+        const documentos = [];
+        for (let i = 0; i < locacionesguar.length; i++) {
+            documentos.push({
+                nombre: nombresJugadores[i].nombre,
+                color: nombresJugadores[i].color,
+                nivel: Math.floor(Math.random() * 100) + 1, // Ejemplo de nivel aleatorio
+                clase: 'guerrero', // Ejemplo de clase estática
+                ubicacion: locacionesguar[i]
+            });
+        }
 
-        // Insertar múltiples documentos en la colección
-        await collection.insertMany(jugadoresGuardados);
-        console.log("Documentos insertados exitosamente");
+        // Insertar documentos en la colección
+        await collection.insertMany(documentos);
+        console.log("Documentos insertados exitosamente en MongoDB");
     } catch (error) {
         console.error("Error al conectar o insertar datos en MongoDB:", error);
     } finally {
@@ -34,4 +43,4 @@ async function ConexionMongoDB(jugadoresGuardados) {
     }
 }
 
-module.exports = ConexionMongoDB; //exporta la funcion
+module.exports = ConexionMongoDB;
