@@ -1,8 +1,68 @@
 /* no me gusta el css */
 #map {
     height:380px;
-    width:400px;
+    width:950px;
     margin: 100px;
     padding: 100px;
     border: 1px solid #ccc;
+    align-items: center;
+    align-self: center;
+    box-shadow: rgba(0, 1, 0, 1) 5px 10px 7px;
+}
+
+header {
+    background-color: rgba(165, 166, 189, 0.795);
+    padding: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin: 10px;
+    box-shadow: rgba(0, 0, 0, 0.7) 5px 4px 7px;
+    text-align: center;
+}
+
+.parrafosJugadores span {
+    padding: 6px;
+    margin: 5px;
+    border-radius: 5%;
+    border: 1px solid black;
+    font-family: 'Courier New', Courier, monospace;
+    color: aliceblue;
+    align-self: center;
+    background-color: rgba(0, 0, 255, 0.377);
+}
+
+.parrafosJugadores{
+    margin: 15px;
+    font-size: 20px;
+    border-radius: 5%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.selectorMarcadores_jugadores{
+    justify-self: center;
+    align-items: center;
+    margin-left: 40%;
+}
+
+.selectorMarcadores_jugadores select {
+    margin: 10px;
+    font-size: 20px;
+    border-radius: 5%;
+    
+}
+.btnExtras{
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.btnExtras button {
+    margin-right: 15px;
+    border: none;
+    background-color: bisque;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    width: 100px;
+    border-radius: 5%;
+    box-shadow: rgba(0, 0, 0, 0.24) 5px 4px 7px;
 }

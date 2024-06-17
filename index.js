@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+const { MongoClient } = require('mongodb');
 const ConexionMongoDB = require('./public/js/conexion'); // Importa la función de conexión a MongoDB
 
 const app = express();
@@ -12,6 +13,11 @@ app.set('view engine', 'ejs'); // Establece EJS como el motor de plantillas por 
 app.set('views', __dirname + '/public/views/'); // Especifica el directorio donde se encuentran las vistas EJS
 
 app.use(express.static(__dirname + '/public'));
+
+// URL del servidor de MongoDB
+const url = 'mongodb://localhost:27017/';
+const dbName = 'intentoxd';
+const collectionName = 'jugadores';
 
 // Ruta para servir la página principal usando EJS
 app.get('/', (req, res) => {
@@ -32,6 +38,22 @@ io.on('connection', (socket) => {
             .catch(error => {
                 console.error('Error al guardar datos de jugadores en MongoDB:', error);
             });
+    });
+
+    // Nuevo evento para manejar la solicitud de datos
+    socket.on('obtenerJugadores', async () => {
+        const client = new MongoClient(url);
+        try {
+            await client.connect();
+            const db = client.db(dbName);
+            const collection = db.collection(collectionName);
+            const jugadores = await collection.find({}).toArray();
+            socket.emit('jugadoresDatos', jugadores);
+        } catch (error) {
+            console.error('Error al obtener datos de jugadores de MongoDB:', error);
+        } finally {
+            await client.close();
+        }
     });
 
     socket.on('disconnect', () => {
